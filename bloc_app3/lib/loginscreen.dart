@@ -55,7 +55,7 @@ class _LoginscreenState extends State<Loginscreen> {
                 controller: passwordController,
               ),
               const SizedBox(height: 20),
-              const GradientButton(),
+               GradientButton( onPressed: (){}),
             ],
           ),
         ),
