@@ -5,7 +5,12 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc() : super(AuthInitial()) {
-    on<AuthLoginRequested>((event, emit) async {
+    on<AuthLoginRequested>(_onAuthLoginRequested);
+    on<AuthLogoutRequested>(_onLogoutRequested);
+  }
+  void _onAuthLoginRequested(
+      AuthLoginRequested event, Emitter<AuthState> emit) {
+    (event, emit) async {
       emit(AuthLoading());
       try {
         final email = event.email;
@@ -20,16 +25,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       } catch (e) {
         return emit(AuthFailure(e.toString()));
       }
-    });
-    on<AuthLogoutRequested>((event, emit) async {
-      emit(AuthLoading());
-      try {
-        await Future.delayed(const Duration(seconds: 1), () {
-          return emit(AuthInitial());
-        });
-      } catch (e) {
-        emit(AuthFailure(e.toString()));
-      }
-    });
+    };
+  }
+
+  void _onLogoutRequested(
+      AuthLogoutRequested event, Emitter<AuthState> emit) async {
+    emit(AuthLoading());
+    try {
+      await Future.delayed(const Duration(seconds: 1), () {
+        return emit(AuthInitial());
+      });
+    } catch (e) {
+      emit(AuthFailure(e.toString()));
+    }
   }
 }
