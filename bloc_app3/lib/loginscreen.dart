@@ -36,7 +36,7 @@ class _LoginscreenState extends State<Loginscreen> {
         },
         builder: (context, state) {
           if (state is AuthLoading) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
 
           return SingleChildScrollView(
